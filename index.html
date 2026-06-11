@@ -105,7 +105,7 @@
     .small { font-size: 13px; color: var(--muted); }
 
     .chips, .button-row, .filter-row { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip, .filter-button, .reset-button, .material-link, .status-save {
+    .chip, .filter-button, .reset-button, .material-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -138,62 +138,6 @@
       color: var(--steel);
     }
 
-    .status-editor {
-      display: grid;
-      gap: 6px;
-      margin-top: 10px;
-      padding: 10px;
-      border: 1px solid rgba(11, 107, 90, .18);
-      border-radius: 6px;
-      background: var(--green-soft);
-    }
-
-    .status-editor label {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--green);
-    }
-
-    .status-select {
-      width: 100%;
-      min-height: 36px;
-      padding: 7px 9px;
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      background: #fff;
-      color: var(--ink);
-    }
-
-    .pin-input {
-      width: 100%;
-      min-height: 36px;
-      padding: 7px 9px;
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      background: #fff;
-      color: var(--ink);
-    }
-
-    .status-save {
-      width: 100%;
-      background: var(--green);
-      color: #fff;
-      border-color: var(--green);
-      font-weight: 700;
-    }
-
-    .status-message {
-      min-height: 18px;
-      margin: 0;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .status-message.is-error {
-      color: #9b2c1f;
-      font-weight: 700;
-    }
-
     .table-status-cell {
       min-width: 190px;
     }
@@ -207,9 +151,9 @@
       background: var(--green);
     }
 
-    .status-delivery .status-dot { background: var(--blue); }
-    .status-7 .status-dot { background: var(--amber); }
-    .status-14 .status-dot { background: var(--brown); }
+    .status-maker .status-dot { background: var(--blue); }
+    .status-order7 .status-dot { background: var(--amber); }
+    .status-order14 .status-dot { background: var(--brown); }
 
     .section {
       margin-top: 20px;
@@ -398,7 +342,7 @@
     }
 
     .product-main:hover { background: #fcfaf6; }
-    .product-main:focus-visible, .filter-button:focus-visible, .reset-button:focus-visible, .status-select:focus-visible, .pin-input:focus-visible, .status-save:focus-visible, .check-item:has(input:focus-visible) {
+    .product-main:focus-visible, .filter-button:focus-visible, .reset-button:focus-visible, .check-item:has(input:focus-visible) {
       outline: 3px solid rgba(11, 107, 90, .28);
       outline-offset: 2px;
     }
@@ -555,7 +499,7 @@
 
     @media print {
       body { background: #fff; }
-      .filter-button, .reset-button, .chip.action, .floating-nav, .status-editor { display: none; }
+      .filter-button, .reset-button, .chip.action, .floating-nav { display: none; }
       .section, .hero, .product-card { box-shadow: none; break-inside: avoid; }
       .product-grid { grid-template-columns: repeat(2, 1fr); }
       .product-detail { display: grid !important; }
@@ -631,10 +575,9 @@
         <div class="question-panel span-6">
           <h3>4. Jak szybko produkt ma byc dostepny?</h3>
           <div class="check-list" data-group="status">
-            <label class="check-item"><input type="checkbox" value="available">Dostepne</label>
-            <label class="check-item"><input type="checkbox" value="delivery">Dostepne z dostawa</label>
+            <label class="check-item"><input type="checkbox" value="maker">Dostępne od ręki z dostawą od producenta</label>
             <label class="check-item"><input type="checkbox" value="order7">Na zamowienie 7 dni</label>
-            <label class="check-item"><input type="checkbox" value="order14">Na zamowienie 14 dni</label>
+            <label class="check-item"><input type="checkbox" value="order14">Na zamowienie do 14 dni</label>
           </div>
         </div>
       </div>
@@ -648,12 +591,11 @@
 
     <section class="section" id="statusy">
       <h2>Statusy</h2>
-      <p class="muted">Te przyciski dzialaja jak szybki filtr dostepnosci. Status produktu mozesz recznie zmienic w danych produktu w tym pliku.</p>
+      <p class="muted">Statusy są ustawiane ręcznie w pliku i aktualizowane przez commit. Przy statusie dostawy od producenta handlowiec powinien sprawdzić dostępność w placówce.</p>
       <div class="filter-row" id="statusButtons">
-        <button class="filter-button status-available" type="button" data-status="available"><span class="status-dot"></span>Dostepne</button>
-        <button class="filter-button status-delivery" type="button" data-status="delivery"><span class="status-dot"></span>Dostepne z dostawa</button>
-        <button class="filter-button status-7" type="button" data-status="order7"><span class="status-dot"></span>Na zamowienie 7 dni</button>
-        <button class="filter-button status-14" type="button" data-status="order14"><span class="status-dot"></span>Na zamowienie 14 dni</button>
+        <button class="filter-button status-maker" type="button" data-status="maker"><span class="status-dot"></span>Dostępne od ręki z dostawą od producenta</button>
+        <button class="filter-button status-order7" type="button" data-status="order7"><span class="status-dot"></span>Dostępne na zamówienie do 7 dni</button>
+        <button class="filter-button status-order14" type="button" data-status="order14"><span class="status-dot"></span>Dostępne na zamówienie do 14 dni</button>
       </div>
     </section>
 
@@ -719,21 +661,16 @@ window.productVideoLinks = { youtube: 'https://www.youtube.com/@FIXON-ES', tikto
     ];
 
     const statusLabels = {
-      available: "dostepne",
-      delivery: "dostepne z dostawa",
-      order7: "na zamowienie 7 dni",
-      order14: "na zamowienie 14 dni"
+      maker: "Dostępne od ręki z dostawą od producenta",
+      order7: "Dostępne na zamówienie do 7 dni",
+      order14: "Dostępne na zamówienie do 14 dni"
     };
 
     const statusClasses = {
-      available: "status-available",
-      delivery: "status-delivery",
-      order7: "status-7",
-      order14: "status-14"
+      maker: "status-maker",
+      order7: "status-order7",
+      order14: "status-order14"
     };
-
-    const editPin = "0000";
-    const statusStorageKey = "fixon-offer-statuses-v1";
 
     const productImages = {
       "Zestaw LEVEL": "https://storage.googleapis.com/nitro-media-local/projects/0qricweczxxpllt/gallery/zsszvmm.webp",
@@ -790,57 +727,57 @@ window.productVideoLinks = { youtube: 'https://www.youtube.com/@FIXON-ES', tikto
     };
 
     const products = [
-      product("Zestaw LEVEL", "Systemy i zestawy", "2 460,00 zl", "delivery", "Najlepszy wybor", "Prowadzenie i profilowanie w jednym zestawie dla ekip, ktore chca pracowac rowniej i szybciej.", "Dobra propozycja, gdy klient chce kupic system, a nie pojedyncze narzedzie.", "System prowadzenia i profilowania, 2 elementy.", ["profilowanie", "ukladanie"], ["regularna", "wieksza", "intensywna"], ["szybkosc", "precyzja", "uniwersalnosc"]),
-      product("Zestaw MASTER", "Systemy i zestawy", "1 550,00 zl", "delivery", "Startowy zestaw ekipy", "Kompleksowa praca brukarska w czterech narzedziach, gdy klient chce szybko wejsc w system FIXON.", "Latwo sprzedac jako pakiet do codziennej pracy ekipy.", "Zestaw 4 narzedzi do typowych prac brukarskich.", ["ukladanie", "profilowanie", "krawezniki"], ["regularna", "wieksza"], ["szybkosc", "uniwersalnosc", "cena"]),
-      product("Zestaw KRAWĘŻNIKI", "Obrzeza i krawezniki", "550,01 zl", "available", "Opcja ekonomiczna", "Dwa narzedzia do precyzyjnego ustawiania obrzezy bez rozbudowanego zakupu.", "Dobry pierwszy zestaw, gdy klient najczesciej pyta o obrzeza.", "Zestaw 2 narzedzi do ustawiania obrzezy.", ["krawezniki"], ["drobna", "regularna"], ["precyzja", "cena"]),
+      product("Zestaw LEVEL", "Systemy i zestawy", "2 460,00 zl", "maker", "Najlepszy wybor", "Prowadzenie i profilowanie w jednym zestawie dla ekip, ktore chca pracowac rowniej i szybciej.", "Dobra propozycja, gdy klient chce kupic system, a nie pojedyncze narzedzie.", "System prowadzenia i profilowania, 2 elementy.", ["profilowanie", "ukladanie"], ["regularna", "wieksza", "intensywna"], ["szybkosc", "precyzja", "uniwersalnosc"]),
+      product("Zestaw MASTER", "Systemy i zestawy", "1 550,00 zl", "maker", "Startowy zestaw ekipy", "Kompleksowa praca brukarska w czterech narzedziach, gdy klient chce szybko wejsc w system FIXON.", "Latwo sprzedac jako pakiet do codziennej pracy ekipy.", "Zestaw 4 narzedzi do typowych prac brukarskich.", ["ukladanie", "profilowanie", "krawezniki"], ["regularna", "wieksza"], ["szybkosc", "uniwersalnosc", "cena"]),
+      product("Zestaw KRAWĘŻNIKI", "Obrzeza i krawezniki", "550,01 zl", "maker", "Opcja ekonomiczna", "Dwa narzedzia do precyzyjnego ustawiania obrzezy bez rozbudowanego zakupu.", "Dobry pierwszy zestaw, gdy klient najczesciej pyta o obrzeza.", "Zestaw 2 narzedzi do ustawiania obrzezy.", ["krawezniki"], ["drobna", "regularna"], ["precyzja", "cena"]),
       product("Zestaw KRAWĘŻNIK PRO", "Obrzeza i krawezniki", "2 091,00 zl", "order7", "Opcja mocniejsza", "Rozbudowany system do montazu kraweznikow dla ekip pracujacych czesto i intensywnie.", "Warto pokazac, kiedy klient szuka kompletnego rozwiazania do powtarzalnej pracy.", "Kompletny system do montazu kraweznikow.", ["krawezniki"], ["wieksza", "intensywna"], ["precyzja", "szybkosc", "uniwersalnosc"]),
-      product("GRIX HOLD PRO", "Chwytanie i podnoszenie", "295,20 zl", "available", "Najlepszy wybor", "Profesjonalny chwytak do kostki i plyt, wygodny przy codziennym podnoszeniu.", "Najbezpieczniejsza pierwsza rekomendacja przy pytaniu o prace z kostka i plytami.", "Konstrukcja do zastosowan profesjonalnych.", ["ukladanie", "podnoszenie"], ["regularna", "wieksza"], ["szybkosc", "wysilek", "bezpieczenstwo"]),
-      product("GRIX HOLD", "Chwytanie i podnoszenie", "240,00 zl", "available", "Opcja tansza", "Prostszy chwytak do kostki i plyt, kiedy liczy sie cena i szybka decyzja.", "Dobra alternatywa dla klienta, ktory chce zaczac od nizszego budzetu.", "Chwytak do prac brukarskich.", ["ukladanie", "podnoszenie"], ["drobna", "regularna"], ["wysilek", "cena"]),
-      product("GRIX", "Chwytanie i podnoszenie", "197,00 zl", "available", "Opcja podstawowa", "Podstawowy chwytak brukarski do zakresu 30-300 mm.", "Najprostsza odpowiedz, gdy klient potrzebuje taniego narzedzia do chwytania.", "Zakres pracy 30-300 mm.", ["ukladanie", "podnoszenie"], ["drobna"], ["cena"]),
-      product("GRIX PLUS", "Chwytanie i podnoszenie", "270,00 zl", "delivery", "Opcja mocniejsza", "Mocniejszy wariant chwytaka do intensywniejszej pracy z kostka i plytami.", "Pokazuj jako krok wyzej po GRIX HOLD.", "Zakres pracy 30-300 mm.", ["ukladanie", "podnoszenie"], ["regularna", "wieksza"], ["szybkosc", "uniwersalnosc"]),
+      product("GRIX HOLD PRO", "Chwytanie i podnoszenie", "295,20 zl", "maker", "Najlepszy wybor", "Profesjonalny chwytak do kostki i plyt, wygodny przy codziennym podnoszeniu.", "Najbezpieczniejsza pierwsza rekomendacja przy pytaniu o prace z kostka i plytami.", "Konstrukcja do zastosowan profesjonalnych.", ["ukladanie", "podnoszenie"], ["regularna", "wieksza"], ["szybkosc", "wysilek", "bezpieczenstwo"]),
+      product("GRIX HOLD", "Chwytanie i podnoszenie", "240,00 zl", "maker", "Opcja tansza", "Prostszy chwytak do kostki i plyt, kiedy liczy sie cena i szybka decyzja.", "Dobra alternatywa dla klienta, ktory chce zaczac od nizszego budzetu.", "Chwytak do prac brukarskich.", ["ukladanie", "podnoszenie"], ["drobna", "regularna"], ["wysilek", "cena"]),
+      product("GRIX", "Chwytanie i podnoszenie", "197,00 zl", "maker", "Opcja podstawowa", "Podstawowy chwytak brukarski do zakresu 30-300 mm.", "Najprostsza odpowiedz, gdy klient potrzebuje taniego narzedzia do chwytania.", "Zakres pracy 30-300 mm.", ["ukladanie", "podnoszenie"], ["drobna"], ["cena"]),
+      product("GRIX PLUS", "Chwytanie i podnoszenie", "270,00 zl", "maker", "Opcja mocniejsza", "Mocniejszy wariant chwytaka do intensywniejszej pracy z kostka i plytami.", "Pokazuj jako krok wyzej po GRIX HOLD.", "Zakres pracy 30-300 mm.", ["ukladanie", "podnoszenie"], ["regularna", "wieksza"], ["szybkosc", "uniwersalnosc"]),
       product("GRIX HARD", "Chwytanie i podnoszenie", "650,01 zl", "order7", "Opcja specjalistyczna", "Chwytak do koparki, gdy reczna praca nie wystarcza do skali zadania.", "Dla klienta z ciezszymi elementami i praca maszynowa.", "Zakres 50-500 mm.", ["podnoszenie"], ["wieksza", "intensywna"], ["wysilek", "bezpieczenstwo"]),
-      product("Adapter do podnoszenia - system GRIX", "Akcesoria i dodatki", "80,00 zl", "available", "Uzupelnienie", "Dodatek rozszerzajacy mozliwosci systemu GRIX.", "Latwy dosprzedazowy element przy chwytakach GRIX.", "Adapter do systemu GRIX PLUS / HOLD.", ["podnoszenie"], ["drobna", "regularna"], ["uniwersalnosc", "cena"]),
-      product("FlatFix DUO", "Prowadzenie i profilowanie", "280,00 zl", "available", "Najlepszy wybor", "Nasadka do poziomicy z podwojnym systemem rolek do szybszego prowadzenia pracy.", "Bardzo dobry produkt do pokazania jako proste usprawnienie codziennej pracy.", "Podwojny system rolek.", ["profilowanie", "ukladanie"], ["regularna", "wieksza"], ["szybkosc", "precyzja"]),
-      product("FlatFix z rolka", "Prowadzenie i profilowanie", "195,00 zl", "available", "Opcja tansza", "Wariant z rolka do wygodniejszego prowadzenia poziomicy.", "Dobra propozycja, gdy klient chce poprawic tempo bez kupowania systemu.", "Nasadka z rolka.", ["profilowanie"], ["drobna", "regularna"], ["precyzja", "cena"]),
-      product("FlatFix z plastikowa podkladka", "Prowadzenie i profilowanie", "150,00 zl", "available", "Opcja ekonomiczna", "Prosty wariant FlatFix do podstawowego prowadzenia pracy.", "Najprostsze wejscie w rodzine FlatFix.", "Wersja z plastikowa podkladka.", ["profilowanie"], ["drobna"], ["cena", "precyzja"]),
-      product("FlatFix Standard", "Prowadzenie i profilowanie", "120,00 zl", "available", "Opcja ekonomiczna", "Podstawowa wersja FlatFix dla klienta szukajacego taniego usprawnienia.", "Dobra odpowiedz na pytanie o najnizszy budzet.", "Standardowa nasadka FlatFix.", ["profilowanie"], ["drobna"], ["cena"]),
-      product("FlatFix PLUS Standard", "Prowadzenie i profilowanie", "145,00 zl", "delivery", "Opcja mocniejsza", "Rozszerzony wariant FlatFix do czestszego uzycia.", "Krok wyzej od wersji standardowej.", "Wariant PLUS standard.", ["profilowanie"], ["regularna"], ["precyzja", "uniwersalnosc"]),
-      product("FlatFix PLUS z plastikowa podstawa", "Prowadzenie i profilowanie", "180,00 zl", "delivery", "Opcja mocniejsza", "Wariant PLUS z plastikowa podstawa do wygodniejszej pracy.", "Pokazuj jako rozsadny srodek miedzy cena a wygoda.", "Wersja PLUS z plastikowa podstawa.", ["profilowanie"], ["regularna"], ["precyzja", "bezpieczenstwo"]),
-      product("FlatFix PLUS z rolka", "Prowadzenie i profilowanie", "220,00 zl", "delivery", "Opcja mocniejsza", "Mocniejszy FlatFix z rolka do plynniejszego prowadzenia.", "Dla klienta, ktory chce wyzszej wygody przy powtarzalnej pracy.", "Wersja PLUS z rolka.", ["profilowanie"], ["regularna", "wieksza"], ["szybkosc", "precyzja"]),
-      product("LineFix", "Prowadzenie i profilowanie", "140,00 zl", "available", "Uzupelnienie pracy ekipy", "Profesjonalny uchwyt do sznurka brukarskiego, ktory porzadkuje wyznaczanie linii.", "Latwy dodatek do sprzedazy przy pracach przygotowawczych.", "Uchwyt do sznurka brukarskiego.", ["profilowanie", "ukladanie"], ["drobna", "regularna"], ["precyzja", "cena"]),
-      product("KatFix", "Prowadzenie i profilowanie", "195,00 zl", "available", "Najlepszy wybor", "Narzedzie do precyzyjnego wyznaczania katow i dlugosci przy cieciu kostki.", "Dobry argument tam, gdzie klient ma poprawki i docinki.", "Pomoc przy wyznaczaniu katow i dlugosci.", ["profilowanie", "ukladanie"], ["regularna"], ["precyzja", "cena"]),
-      product("KatFix PRO", "Prowadzenie i profilowanie", "270,60 zl", "delivery", "Opcja mocniejsza", "Wariant PRO do precyzyjnego wyznaczania katow i dlugosci dla duzych formatow.", "Pokazuj przy wiekszych plytach i pracy wymagajacej dokladnosci.", "Wersja PRO do duzych formatow.", ["profilowanie", "ukladanie"], ["wieksza", "intensywna"], ["precyzja", "szybkosc"]),
+      product("Adapter do podnoszenia - system GRIX", "Akcesoria i dodatki", "80,00 zl", "maker", "Uzupelnienie", "Dodatek rozszerzajacy mozliwosci systemu GRIX.", "Latwy dosprzedazowy element przy chwytakach GRIX.", "Adapter do systemu GRIX PLUS / HOLD.", ["podnoszenie"], ["drobna", "regularna"], ["uniwersalnosc", "cena"]),
+      product("FlatFix DUO", "Prowadzenie i profilowanie", "280,00 zl", "maker", "Najlepszy wybor", "Nasadka do poziomicy z podwojnym systemem rolek do szybszego prowadzenia pracy.", "Bardzo dobry produkt do pokazania jako proste usprawnienie codziennej pracy.", "Podwojny system rolek.", ["profilowanie", "ukladanie"], ["regularna", "wieksza"], ["szybkosc", "precyzja"]),
+      product("FlatFix z rolka", "Prowadzenie i profilowanie", "195,00 zl", "maker", "Opcja tansza", "Wariant z rolka do wygodniejszego prowadzenia poziomicy.", "Dobra propozycja, gdy klient chce poprawic tempo bez kupowania systemu.", "Nasadka z rolka.", ["profilowanie"], ["drobna", "regularna"], ["precyzja", "cena"]),
+      product("FlatFix z plastikowa podkladka", "Prowadzenie i profilowanie", "150,00 zl", "maker", "Opcja ekonomiczna", "Prosty wariant FlatFix do podstawowego prowadzenia pracy.", "Najprostsze wejscie w rodzine FlatFix.", "Wersja z plastikowa podkladka.", ["profilowanie"], ["drobna"], ["cena", "precyzja"]),
+      product("FlatFix Standard", "Prowadzenie i profilowanie", "120,00 zl", "maker", "Opcja ekonomiczna", "Podstawowa wersja FlatFix dla klienta szukajacego taniego usprawnienia.", "Dobra odpowiedz na pytanie o najnizszy budzet.", "Standardowa nasadka FlatFix.", ["profilowanie"], ["drobna"], ["cena"]),
+      product("FlatFix PLUS Standard", "Prowadzenie i profilowanie", "145,00 zl", "maker", "Opcja mocniejsza", "Rozszerzony wariant FlatFix do czestszego uzycia.", "Krok wyzej od wersji standardowej.", "Wariant PLUS standard.", ["profilowanie"], ["regularna"], ["precyzja", "uniwersalnosc"]),
+      product("FlatFix PLUS z plastikowa podstawa", "Prowadzenie i profilowanie", "180,00 zl", "maker", "Opcja mocniejsza", "Wariant PLUS z plastikowa podstawa do wygodniejszej pracy.", "Pokazuj jako rozsadny srodek miedzy cena a wygoda.", "Wersja PLUS z plastikowa podstawa.", ["profilowanie"], ["regularna"], ["precyzja", "bezpieczenstwo"]),
+      product("FlatFix PLUS z rolka", "Prowadzenie i profilowanie", "220,00 zl", "maker", "Opcja mocniejsza", "Mocniejszy FlatFix z rolka do plynniejszego prowadzenia.", "Dla klienta, ktory chce wyzszej wygody przy powtarzalnej pracy.", "Wersja PLUS z rolka.", ["profilowanie"], ["regularna", "wieksza"], ["szybkosc", "precyzja"]),
+      product("LineFix", "Prowadzenie i profilowanie", "140,00 zl", "maker", "Uzupelnienie pracy ekipy", "Profesjonalny uchwyt do sznurka brukarskiego, ktory porzadkuje wyznaczanie linii.", "Latwy dodatek do sprzedazy przy pracach przygotowawczych.", "Uchwyt do sznurka brukarskiego.", ["profilowanie", "ukladanie"], ["drobna", "regularna"], ["precyzja", "cena"]),
+      product("KatFix", "Prowadzenie i profilowanie", "195,00 zl", "maker", "Najlepszy wybor", "Narzedzie do precyzyjnego wyznaczania katow i dlugosci przy cieciu kostki.", "Dobry argument tam, gdzie klient ma poprawki i docinki.", "Pomoc przy wyznaczaniu katow i dlugosci.", ["profilowanie", "ukladanie"], ["regularna"], ["precyzja", "cena"]),
+      product("KatFix PRO", "Prowadzenie i profilowanie", "270,60 zl", "maker", "Opcja mocniejsza", "Wariant PRO do precyzyjnego wyznaczania katow i dlugosci dla duzych formatow.", "Pokazuj przy wiekszych plytach i pracy wymagajacej dokladnosci.", "Wersja PRO do duzych formatow.", ["profilowanie", "ukladanie"], ["wieksza", "intensywna"], ["precyzja", "szybkosc"]),
       product("LevelFix", "Prowadzenie i profilowanie", "1 799,66 zl", "order7", "Najlepszy wybor", "System prowadzenia lat profilujacych dla ekip, ktore potrzebuja kontroli na dluzszych odcinkach.", "Mocna propozycja, gdy rozmowa dotyczy jakosci i powtarzalnosci.", "System prowadzenia lat profilujacych.", ["profilowanie"], ["wieksza", "intensywna"], ["precyzja", "uniwersalnosc"]),
       product("FormFix DUAL", "Prowadzenie i profilowanie", "2 460,00 zl", "order7", "Opcja mocniejsza", "Reczna lata profilujaca z podwojnymi rolkami do profesjonalnej pracy.", "Pokazuj jako rozwiazanie dla ekip, ktore chca szybciej profilowac wieksze odcinki.", "Stal nierdzewna, podwojne rolki.", ["profilowanie"], ["wieksza", "intensywna"], ["szybkosc", "precyzja"]),
       product("FormFix MAX", "Prowadzenie i profilowanie", "1 470,00 zl", "order7", "Opcja mocniejsza", "Profesjonalna reczna lata profilujaca do szerszego zakresu prac.", "Dobra propozycja dla ekip robiacych wieksze realizacje.", "Zakres 1250-3500 mm.", ["profilowanie"], ["wieksza", "intensywna"], ["szybkosc", "precyzja"]),
-      product("FormFix 1250-2200 mm", "Prowadzenie i profilowanie", "980,00 zl", "delivery", "Opcja ekonomiczna", "Regulowana lata profilujaca do prac wymagajacych dopasowania zakresu.", "Rozsadny wybor, gdy klient chce late, ale nie najwyzszy wariant.", "Regulacja 1250-2200 mm.", ["profilowanie"], ["regularna", "wieksza"], ["precyzja", "cena"]),
-      product("FormFixMini", "Prowadzenie i profilowanie", "660,01 zl", "delivery", "Opcja ekonomiczna", "Kompaktowa lata profilujaca z regulacja do mniejszych odcinkow.", "Latwa rekomendacja do mniejszych ekip i prac ograniczonych miejscem.", "Zakres 80-130 cm.", ["profilowanie"], ["drobna", "regularna"], ["precyzja", "cena"]),
-      product("KrawFix INOX", "Obrzeza i krawezniki", "320,50 zl", "available", "Najlepszy wybor", "Sciagacz podbudowy ze stali nierdzewnej do pracy przy kraweznikach.", "Najlepszy pierwszy wybor przy rozmowie o obrzezach i podbudowie.", "Stal nierdzewna.", ["krawezniki"], ["regularna", "wieksza"], ["szybkosc", "precyzja"]),
-      product("KrawFix ROLLER", "Obrzeza i krawezniki", "470,00 zl", "delivery", "Opcja mocniejsza", "Sciagacz podbudowy z rolkami, gdy liczy sie plynnosc i wygoda prowadzenia.", "Pokazuj jako bardziej komfortowy wariant do czestej pracy.", "Wersja z rolkami ze stali nierdzewnej.", ["krawezniki"], ["regularna", "wieksza"], ["szybkosc", "bezpieczenstwo"]),
-      product("KrawFix", "Obrzeza i krawezniki", "240,00 zl", "available", "Opcja ekonomiczna", "Prosty sciagacz podbudowy przy kraweznikach.", "Budzetowa odpowiedz na podstawowa potrzebe przy obrzezach.", "Sciagacz podbudowy przy kraweznikach.", ["krawezniki"], ["drobna", "regularna"], ["precyzja", "cena"]),
+      product("FormFix 1250-2200 mm", "Prowadzenie i profilowanie", "980,00 zl", "maker", "Opcja ekonomiczna", "Regulowana lata profilujaca do prac wymagajacych dopasowania zakresu.", "Rozsadny wybor, gdy klient chce late, ale nie najwyzszy wariant.", "Regulacja 1250-2200 mm.", ["profilowanie"], ["regularna", "wieksza"], ["precyzja", "cena"]),
+      product("FormFixMini", "Prowadzenie i profilowanie", "660,01 zl", "maker", "Opcja ekonomiczna", "Kompaktowa lata profilujaca z regulacja do mniejszych odcinkow.", "Latwa rekomendacja do mniejszych ekip i prac ograniczonych miejscem.", "Zakres 80-130 cm.", ["profilowanie"], ["drobna", "regularna"], ["precyzja", "cena"]),
+      product("KrawFix INOX", "Obrzeza i krawezniki", "320,50 zl", "maker", "Najlepszy wybor", "Sciagacz podbudowy ze stali nierdzewnej do pracy przy kraweznikach.", "Najlepszy pierwszy wybor przy rozmowie o obrzezach i podbudowie.", "Stal nierdzewna.", ["krawezniki"], ["regularna", "wieksza"], ["szybkosc", "precyzja"]),
+      product("KrawFix ROLLER", "Obrzeza i krawezniki", "470,00 zl", "maker", "Opcja mocniejsza", "Sciagacz podbudowy z rolkami, gdy liczy sie plynnosc i wygoda prowadzenia.", "Pokazuj jako bardziej komfortowy wariant do czestej pracy.", "Wersja z rolkami ze stali nierdzewnej.", ["krawezniki"], ["regularna", "wieksza"], ["szybkosc", "bezpieczenstwo"]),
+      product("KrawFix", "Obrzeza i krawezniki", "240,00 zl", "maker", "Opcja ekonomiczna", "Prosty sciagacz podbudowy przy kraweznikach.", "Budzetowa odpowiedz na podstawowa potrzebe przy obrzezach.", "Sciagacz podbudowy przy kraweznikach.", ["krawezniki"], ["drobna", "regularna"], ["precyzja", "cena"]),
       product("WallFix", "Obrzeza i krawezniki", "1 353,00 zl", "order7", "Rozwiazanie specjalistyczne", "Zestaw szalunku slizgowego do murkow oporowych.", "Do pokazania wtedy, gdy klient ma konkretna prace specjalistyczna.", "Szalunek slizgowy do murkow oporowych.", ["krawezniki", "specjalistyczne"], ["wieksza", "intensywna"], ["precyzja", "uniwersalnosc"]),
-      product("RolLift", "Transport i przenoszenie", "740,00 zl", "delivery", "Najlepszy wybor", "Wozek brukarski do transportu plyt i kraweznikow.", "Prosty argument: mniej noszenia, sprawniejszy transport na budowie.", "Wozek do transportu plyt i kraweznikow.", ["transport", "podnoszenie"], ["regularna", "wieksza"], ["wysilek", "bezpieczenstwo", "szybkosc"]),
-      product("LiftX", "Transport i przenoszenie", "340,00 zl", "delivery", "Dodatek do systemu", "Uchwyt poszerzajacy do wozka brukarskiego RollFit.", "Dobry dosprzedazowy element przy transporcie plyt.", "Uchwyt poszerzajacy.", ["transport"], ["regularna", "wieksza"], ["uniwersalnosc"]),
-      product("HandLift", "Chwytanie i podnoszenie", "280,00 zl", "available", "Opcja ekonomiczna", "Uniwersalny chwytak brukarski do codziennego podnoszenia.", "Dobra propozycja, gdy klient pyta o wygode i prostote.", "Uniwersalny chwytak do 60 cm.", ["podnoszenie", "transport"], ["drobna", "regularna"], ["wysilek", "cena"]),
-      product("GRIPTOR", "Chwytanie i podnoszenie", "340,00 zl", "delivery", "Najlepszy wybor", "Chwytak do plyt i kraweznikow, gdy elementy sa wieksze niz typowa kostka.", "Pierwsza rekomendacja przy plytach i kraweznikach.", "Chwytak do plyt i kraweznikow.", ["podnoszenie", "krawezniki"], ["regularna", "wieksza"], ["wysilek", "bezpieczenstwo"]),
-      product("GRIPTOR PRO", "Chwytanie i podnoszenie", "420,66 zl", "delivery", "Opcja mocniejsza", "Wzmocniony chwytak do ciezkich plyt i kraweznikow drogowych.", "Pokazuj, gdy klient pracuje intensywnie albo ma ciezszy material.", "Wersja wzmocniona.", ["podnoszenie", "krawezniki", "transport"], ["wieksza", "intensywna"], ["wysilek", "bezpieczenstwo"]),
+      product("RolLift", "Transport i przenoszenie", "740,00 zl", "maker", "Najlepszy wybor", "Wozek brukarski do transportu plyt i kraweznikow.", "Prosty argument: mniej noszenia, sprawniejszy transport na budowie.", "Wozek do transportu plyt i kraweznikow.", ["transport", "podnoszenie"], ["regularna", "wieksza"], ["wysilek", "bezpieczenstwo", "szybkosc"]),
+      product("LiftX", "Transport i przenoszenie", "340,00 zl", "maker", "Dodatek do systemu", "Uchwyt poszerzajacy do wozka brukarskiego RollFit.", "Dobry dosprzedazowy element przy transporcie plyt.", "Uchwyt poszerzajacy.", ["transport"], ["regularna", "wieksza"], ["uniwersalnosc"]),
+      product("HandLift", "Chwytanie i podnoszenie", "280,00 zl", "maker", "Opcja ekonomiczna", "Uniwersalny chwytak brukarski do codziennego podnoszenia.", "Dobra propozycja, gdy klient pyta o wygode i prostote.", "Uniwersalny chwytak do 60 cm.", ["podnoszenie", "transport"], ["drobna", "regularna"], ["wysilek", "cena"]),
+      product("GRIPTOR", "Chwytanie i podnoszenie", "340,00 zl", "maker", "Najlepszy wybor", "Chwytak do plyt i kraweznikow, gdy elementy sa wieksze niz typowa kostka.", "Pierwsza rekomendacja przy plytach i kraweznikach.", "Chwytak do plyt i kraweznikow.", ["podnoszenie", "krawezniki"], ["regularna", "wieksza"], ["wysilek", "bezpieczenstwo"]),
+      product("GRIPTOR PRO", "Chwytanie i podnoszenie", "420,66 zl", "maker", "Opcja mocniejsza", "Wzmocniony chwytak do ciezkich plyt i kraweznikow drogowych.", "Pokazuj, gdy klient pracuje intensywnie albo ma ciezszy material.", "Wersja wzmocniona.", ["podnoszenie", "krawezniki", "transport"], ["wieksza", "intensywna"], ["wysilek", "bezpieczenstwo"]),
       product("BLOCKLIFT 300", "Chwytanie i podnoszenie", "1 250,00 zl", "order7", "Opcja mocniejsza", "Chwytak do ciezkich blokow, gdy potrzebna jest wieksza nosnosc.", "Dla klientow od ciezszych prefabrykatow i blokow.", "Chwytak do ciezkich blokow.", ["podnoszenie", "specjalistyczne"], ["wieksza", "intensywna"], ["wysilek", "bezpieczenstwo"]),
       product("BLOCKLIFT 500", "Chwytanie i podnoszenie", "2 400,00 zl", "order14", "Opcja najmocniejsza", "Mocniejszy chwytak do ciezkich blokow i wymagajacej pracy.", "Pokazuj jako najwyzszy wariant w rodzinie BLOCKLIFT.", "Chwytak do ciezkich blokow.", ["podnoszenie", "specjalistyczne"], ["intensywna"], ["wysilek", "bezpieczenstwo"]),
-      product("HARDTAP MINI", "Zageszczanie i przygotowanie podloza", "200,49 zl", "available", "Opcja ekonomiczna", "Profesjonalny ubijak reczny do pracy w waskich miejscach.", "Latwy produkt do polecenia przy poprawkach i miejscach, gdzie maszyna nie wejdzie.", "Ubijak reczny 7 kg.", ["zageszczanie"], ["drobna", "regularna"], ["precyzja", "cena"]),
-      product("HARDTAP 5 kg", "Zageszczanie i przygotowanie podloza", "220,00 zl", "available", "Opcja ekonomiczna", "Lekki ubijak reczny do podstawowych prac.", "Dobra opcja przy niskim budzecie i drobniejszych zadaniach.", "Masa 5 kg.", ["zageszczanie"], ["drobna"], ["cena", "bezpieczenstwo"]),
-      product("HARDTAP 10 kg", "Zageszczanie i przygotowanie podloza", "282,90 zl", "available", "Najlepszy wybor", "Uniwersalny ubijak reczny do regularnej pracy przy podlozu.", "Najprostsza rekomendacja, gdy klient nie wie, jaki ciezar wybrac.", "Masa 10 kg.", ["zageszczanie"], ["regularna"], ["uniwersalnosc", "cena"]),
-      product("HARDTAP 15 kg", "Zageszczanie i przygotowanie podloza", "332,10 zl", "delivery", "Opcja mocniejsza", "Ciezszy ubijak reczny do mocniejszego zageszczania.", "Pokazuj, gdy klient chce wiekszej sily pracy recznej.", "Masa 15 kg.", ["zageszczanie"], ["regularna", "wieksza"], ["szybkosc", "uniwersalnosc"]),
-      product("HARDTAP 20 kg", "Zageszczanie i przygotowanie podloza", "369,00 zl", "delivery", "Opcja mocniejsza", "Najciezszy wariant reczny do intensywniejszego ubijania.", "Dla klienta, ktory chce maksimum z narzedzia recznego.", "Masa 20 kg.", ["zageszczanie"], ["wieksza", "intensywna"], ["szybkosc", "uniwersalnosc"]),
+      product("HARDTAP MINI", "Zageszczanie i przygotowanie podloza", "200,49 zl", "maker", "Opcja ekonomiczna", "Profesjonalny ubijak reczny do pracy w waskich miejscach.", "Latwy produkt do polecenia przy poprawkach i miejscach, gdzie maszyna nie wejdzie.", "Ubijak reczny 7 kg.", ["zageszczanie"], ["drobna", "regularna"], ["precyzja", "cena"]),
+      product("HARDTAP 5 kg", "Zageszczanie i przygotowanie podloza", "220,00 zl", "maker", "Opcja ekonomiczna", "Lekki ubijak reczny do podstawowych prac.", "Dobra opcja przy niskim budzecie i drobniejszych zadaniach.", "Masa 5 kg.", ["zageszczanie"], ["drobna"], ["cena", "bezpieczenstwo"]),
+      product("HARDTAP 10 kg", "Zageszczanie i przygotowanie podloza", "282,90 zl", "maker", "Najlepszy wybor", "Uniwersalny ubijak reczny do regularnej pracy przy podlozu.", "Najprostsza rekomendacja, gdy klient nie wie, jaki ciezar wybrac.", "Masa 10 kg.", ["zageszczanie"], ["regularna"], ["uniwersalnosc", "cena"]),
+      product("HARDTAP 15 kg", "Zageszczanie i przygotowanie podloza", "332,10 zl", "maker", "Opcja mocniejsza", "Ciezszy ubijak reczny do mocniejszego zageszczania.", "Pokazuj, gdy klient chce wiekszej sily pracy recznej.", "Masa 15 kg.", ["zageszczanie"], ["regularna", "wieksza"], ["szybkosc", "uniwersalnosc"]),
+      product("HARDTAP 20 kg", "Zageszczanie i przygotowanie podloza", "369,00 zl", "maker", "Opcja mocniejsza", "Najciezszy wariant reczny do intensywniejszego ubijania.", "Dla klienta, ktory chce maksimum z narzedzia recznego.", "Masa 20 kg.", ["zageszczanie"], ["wieksza", "intensywna"], ["szybkosc", "uniwersalnosc"]),
       product("Zageszczarka plytowa gruntu 120 kg 32 kN LONCIN", "Zageszczanie i przygotowanie podloza", "4 700,00 zl", "order14", "Opcja profesjonalna", "Profesjonalna zageszczarka plytowa do wiekszych prac z podlozem.", "Pokazuj, gdy reczne ubijaki sa za male do skali zadania.", "Masa 120 kg, sila 32 kN.", ["zageszczanie", "specjalistyczne"], ["wieksza", "intensywna"], ["szybkosc", "uniwersalnosc"]),
-      product("CyrkielFix", "Akcesoria i dodatki", "145,00 zl", "available", "Uzupelnienie", "Cyrkiel budowlany do duzych okregow, przydatny przy precyzyjnym wyznaczaniu.", "Latwy dodatek przy pracach wymagajacych ciecia po luku.", "Zakres do 120 cm.", ["profilowanie", "specjalistyczne"], ["drobna", "regularna"], ["precyzja", "cena"]),
+      product("CyrkielFix", "Akcesoria i dodatki", "145,00 zl", "maker", "Uzupelnienie", "Cyrkiel budowlany do duzych okregow, przydatny przy precyzyjnym wyznaczaniu.", "Latwy dodatek przy pracach wymagajacych ciecia po luku.", "Zakres do 120 cm.", ["profilowanie", "specjalistyczne"], ["drobna", "regularna"], ["precyzja", "cena"]),
       product("BRUKFILL", "Systemy i zestawy", "11 000,00 zl", "order14", "Rozwiazanie specjalistyczne", "Profesjonalne urzadzenie do fugowania kostki brukowej.", "Dla klienta, ktory pyta o specjalistyczne przyspieszenie fugowania.", "Urzadzenie do fugowania kostki brukowej.", ["specjalistyczne", "ukladanie"], ["wieksza", "intensywna"], ["szybkosc", "wysilek"]),
       product("MONOX 6.0", "Systemy i zestawy", "9 864,60 zl", "order14", "Rozwiazanie drogowe", "Profesjonalny grader drogowy do pracy na wiekszych realizacjach.", "Dla klienta, ktory potrzebuje narzedzia do rownania i profilowania na skale drogowa.", "Grader drogowy 6,0 m.", ["specjalistyczne", "profilowanie"], ["wieksza", "intensywna"], ["szybkosc", "precyzja"]),
       product("MONOX 8.0", "Systemy i zestawy", "13 800,00 zl", "order14", "Rozwiazanie drogowe", "Profesjonalny grader drogowy do najwiekszych realizacji w ofercie katalogowej.", "Najmocniejsza propozycja, gdy klient szuka rozwiazania do szerokiego frontu pracy.", "Grader drogowy 8,0 m.", ["specjalistyczne", "profilowanie"], ["intensywna"], ["szybkosc", "precyzja"]),
       product("UrbanRoot STEEL", "Akcesoria i dodatki", "1 970,00 zl", "order14", "Specjalistyczne", "Kratownica przydrzewna do realizacji miejskich i projektowych.", "Produkt projektowy, nie typowy zakup impulsowy.", "Wersja stalowa.", ["specjalistyczne"], ["wieksza", "intensywna"], ["precyzja"]),
       product("UrbanRoot INOX", "Akcesoria i dodatki", "3 383,00 zl", "order14", "Opcja mocniejsza", "Kratownica przydrzewna ze stali nierdzewnej.", "Pokazuj przy realizacjach, gdzie liczy sie trwalosc i wyzszy standard materialu.", "Stal nierdzewna.", ["specjalistyczne"], ["wieksza", "intensywna"], ["precyzja", "uniwersalnosc"]),
       product("UrbanRoot CUSTOM", "Akcesoria i dodatki", "2 999,99 zl", "order14", "Na zamowienie", "Kratownica przydrzewna wykonywana na indywidualne zamowienie.", "Dla projektow, ktore wymagaja dopasowania.", "Wykonanie indywidualne.", ["specjalistyczne"], ["wieksza", "intensywna"], ["uniwersalnosc"]),
-      product("ODBOJNIK GUMOWY 60x30x22mm", "Akcesoria i dodatki", "10,00 zl", "available", "Dodatek", "Element ochronny do uzupelnienia zestawu narzedzi.", "Maly produkt do dosprzedazy przy zamowieniach.", "Wymiar 60x30x22 mm.", ["podnoszenie"], ["drobna", "regularna"], ["cena"]),
-      product("Odbojnik do GRIX PLUS", "Akcesoria i dodatki", "95,01 zl", "available", "Dodatek", "Element ochronny ze stali nierdzewnej do GRIX PLUS.", "Dosprzedaz przy GRIX PLUS i pracy intensywnej.", "Stal nierdzewna.", ["podnoszenie"], ["regularna"], ["bezpieczenstwo", "uniwersalnosc"])
+      product("ODBOJNIK GUMOWY 60x30x22mm", "Akcesoria i dodatki", "10,00 zl", "maker", "Dodatek", "Element ochronny do uzupelnienia zestawu narzedzi.", "Maly produkt do dosprzedazy przy zamowieniach.", "Wymiar 60x30x22 mm.", ["podnoszenie"], ["drobna", "regularna"], ["cena"]),
+      product("Odbojnik do GRIX PLUS", "Akcesoria i dodatki", "95,01 zl", "maker", "Dodatek", "Element ochronny ze stali nierdzewnej do GRIX PLUS.", "Dosprzedaz przy GRIX PLUS i pracy intensywnej.", "Stal nierdzewna.", ["podnoszenie"], ["regularna"], ["bezpieczenstwo", "uniwersalnosc"])
     ];
 
     function product(name, category, price, status, recommendation, description, sales, technical, jobs, scales, priorities) {
@@ -868,8 +805,7 @@ window.productVideoLinks = { youtube: 'https://www.youtube.com/@FIXON-ES', tikto
 
     const state = {
       category: "",
-      opened: new Set(),
-      statusOverrides: loadStatusOverrides()
+      opened: new Set()
     };
 
     const productGrid = document.querySelector("#productGrid");
@@ -887,27 +823,8 @@ window.productVideoLinks = { youtube: 'https://www.youtube.com/@FIXON-ES', tikto
       return [...document.querySelectorAll(`.check-list[data-group="${group}"] input:checked`)].map(input => input.value);
     }
 
-    function loadStatusOverrides() {
-      try {
-        return JSON.parse(localStorage.getItem(statusStorageKey)) || {};
-      } catch (error) {
-        return {};
-      }
-    }
-
-    function saveStatusOverrides() {
-      localStorage.setItem(statusStorageKey, JSON.stringify(state.statusOverrides));
-    }
-
     function getStatus(item) {
-      return state.statusOverrides[slug(item.name)] || item.status;
-    }
-
-    function statusOptions(currentStatus) {
-      return Object.entries(statusLabels).map(([value, label]) => {
-        const selectedAttr = value === currentStatus ? " selected" : "";
-        return `<option value="${value}"${selectedAttr}>${label}</option>`;
-      }).join("");
+      return item.status;
     }
 
     function getProductPhotos(item) {
@@ -992,18 +909,7 @@ window.productVideoLinks = { youtube: 'https://www.youtube.com/@FIXON-ES', tikto
         const id = slug(item.name);
         const currentStatus = getStatus(item);
         const videoLinks = getVideoLinks();
-        const editor = `
-          <form class="status-editor" data-product-id="${id}">
-            <label for="status-${id}">Status oferty</label>
-            <select class="status-select" id="status-${id}" data-product-id="${id}">
-              ${statusOptions(currentStatus)}
-            </select>
-            <label for="pin-${id}">PIN</label>
-            <input class="pin-input" id="pin-${id}" name="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="Wpisz PIN">
-            <button class="status-save" type="submit">Zatwierdź status</button>
-            <p class="status-message" aria-live="polite"></p>
-          </form>
-        `;
+        const statusNote = currentStatus === "maker" ? `<p class="small">Sprawdź dostępność w placówce.</p>` : "";
         const card = document.createElement("article");
         card.className = `product-card ${state.opened.has(id) ? "is-open" : ""}`;
         card.innerHTML = `
@@ -1015,6 +921,7 @@ window.productVideoLinks = { youtube: 'https://www.youtube.com/@FIXON-ES', tikto
             <h3 class="product-name">${item.name}</h3>
             <p class="small">${item.description}</p>
             <div class="product-meta ${statusClasses[currentStatus]}"><span class="status-dot"></span>${statusLabels[currentStatus]}</div>
+            ${statusNote}
             <div class="product-price">${item.price}</div>
           </button>
           <div class="product-detail">
@@ -1031,7 +938,6 @@ window.productVideoLinks = { youtube: 'https://www.youtube.com/@FIXON-ES', tikto
                 <a class="material-link" href="${item.materials.pdf}">PDF</a>
                 <a class="material-link" href="${item.materials.page}">Strona</a>
               </div>
-              ${editor}
             </div>
           </div>
         `;
@@ -1100,28 +1006,6 @@ window.productVideoLinks = { youtube: 'https://www.youtube.com/@FIXON-ES', tikto
     }
 
     filterInputs.forEach(input => input.addEventListener("change", render));
-    document.addEventListener("submit", event => {
-      if (!event.target.classList.contains("status-editor")) return;
-
-      event.preventDefault();
-      const form = event.target;
-      const message = form.querySelector(".status-message");
-      const pin = form.querySelector(".pin-input").value;
-      const productId = form.dataset.productId;
-      const selectedStatus = form.querySelector(".status-select").value;
-
-      if (pin !== editPin) {
-        message.textContent = "Nieprawidłowy PIN.";
-        message.classList.add("is-error");
-        return;
-      }
-
-      state.statusOverrides[productId] = selectedStatus;
-      saveStatusOverrides();
-      state.opened.add(productId);
-      render();
-    });
-
     statusButtons.forEach(button => {
       button.addEventListener("click", () => {
         const input = document.querySelector(`.check-list[data-group="status"] input[value="${button.dataset.status}"]`);
@@ -1166,4 +1050,5 @@ window.productVideoLinks = { youtube: 'https://www.youtube.com/@FIXON-ES', tikto
   </script>
 </body>
 </html>
+
 

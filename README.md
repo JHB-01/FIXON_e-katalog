@@ -1,34 +1,34 @@
-# FIXON e-katalog - publikacja na GitHub Pages
+# FIXON e-catalogue
 
-Ten folder jest gotowa paczka do publikacji e-katalogu FIXON jako statycznej strony GitHub Pages.
+Static multilingual e-catalogue prepared for GitHub Pages.
 
-## Co jest w paczce
+## Published pages
 
-- `index.html` - gotowy e-katalog, plik startowy strony.
-- `.nojekyll` - plik pomocniczy dla GitHub Pages, zeby GitHub niczego nie przetwarzal.
+- Polish: `/`
+- English: `/en/`
+- German: `/de/`
 
-## Najprostsza publikacja przez przegladarke
+## GitHub Pages setup
 
-1. Wejdz na GitHub i utworz nowe repozytorium, np. `fixon-e-katalog`.
-2. Wejdz do repozytorium i kliknij `Add file` -> `Upload files`.
-3. Przeciagnij do uploadu pliki z tego folderu: `index.html`, `.nojekyll` oraz ten `README.md`.
-4. Kliknij `Commit changes`.
-5. Wejdz w `Settings` -> `Pages`.
-6. W sekcji `Build and deployment` ustaw:
-   - `Source`: `Deploy from a branch`
-   - `Branch`: `main`
-   - folder: `/ (root)`
-7. Kliknij `Save`.
-8. Po chwili GitHub poda adres strony, zwykle w formacie:
-   `https://TWOJ_LOGIN.github.io/fixon-e-katalog/`
+1. Open repository settings on GitHub.
+2. Go to `Pages`.
+3. Set `Source` to `Deploy from a branch`.
+4. Select branch `main`.
+5. Select folder `/ (root)`.
+6. Save.
 
-## Aktualizacja katalogu pozniej
+After deployment, the pages will be available as:
 
-1. W tym projekcie edytuj plik `e-katalog.html`.
-2. Skopiuj go ponownie jako `github-e-katalog/index.html`.
-3. Na GitHubie wejdz w `index.html`, kliknij edycje albo upload nowej wersji.
-4. Zrob `Commit changes`.
+- `https://YOUR_LOGIN.github.io/FIXON_e-katalog/`
+- `https://YOUR_LOGIN.github.io/FIXON_e-katalog/en/`
+- `https://YOUR_LOGIN.github.io/FIXON_e-katalog/de/`
 
-## Wazne
+## Updating
 
-Wgrywaj zawartosc folderu `github-e-katalog`, a nie caly folder jako podfolder repozytorium.
+Update the source catalogue, regenerate language files, then commit and push:
+
+```powershell
+git add .
+git commit -m "Update multilingual e-catalogue"
+git push
+```
